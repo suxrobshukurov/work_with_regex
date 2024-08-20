@@ -10,7 +10,6 @@ import (
 	"strings"
 )
 
-var re = regexp.MustCompile(`([0-9]+)([+\-*/]{1})([0-9]+)([=]{1})([?]{1})`)
 
 func getFilePaths() (string, string, error) {
 
@@ -45,6 +44,7 @@ func readFile(path string) (string, error) {
 }
 
 func processContent(content string) ([]string, error) {
+	var re = regexp.MustCompile(`([0-9]+)([+\-*/]{1})([0-9]+)([=]{1})([?]{1})`)
 	submatch := re.FindAllStringSubmatch(content, -1)
 	results := make([]string, 0, len(submatch))
 
@@ -78,9 +78,10 @@ func performOperation(a, b int, op string) string {
 	case "/":
 		if b != 0 {
 			return strconv.Itoa(a / b)
+		} else {
+			return "Деление на ноль нельзя!"	
 		}
 	}
-	return ""
 }
 
 func writeResults(path string, results []string) error {
